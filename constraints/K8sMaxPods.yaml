@@ -3,9 +3,10 @@ kind: K8sMaxPods
 metadata:
   name: deployment-max-pods
 spec:
+  enforcementAction: deny      
   match:
-    namespaces:      
-      - "prueba"
+    namespaces:
+      - "prueba"      
     kinds:
       - apiGroups: [""]
         kinds: ["Deployment"]

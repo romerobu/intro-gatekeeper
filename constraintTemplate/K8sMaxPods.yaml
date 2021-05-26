@@ -18,15 +18,10 @@ spec:
         package k8smaxpods
 
         violation[{"msg": msg}] {
-          general_violation[{"msg": msg, "field": "deployments"}]
-        }
-
-        general_violation[{"msg": msg, "field": field}] {
-          deployment := input.review.object.spec[field][_]
-          replicas := deployment.replicas
+          replicas := input.review.object.spec.replicas
           max_replicas := input.parameters.replicas
-          replicas > max_replicas
-          msg := sprintf("deployment <%v> pods <%v> is higher than the maximum allowed of <%v>", [replicas, max_replicas])
+          to_number(replicas) > to_number(max_replicas)
+          msg := sprintf("deployment <%v> pods is higher than the maximum allowed of <%v>", [replicas, max_replicas])
         }        
             
 
