@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredLabels
+metadata:
+  name: required-label-deployment
+spec:
+  enforcementAction: deny        
+  match:
+    namespaces:
+      - "prueba"      
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Deployment"]
+  parameters:
+    labels: ["hello-openshift-no"]
