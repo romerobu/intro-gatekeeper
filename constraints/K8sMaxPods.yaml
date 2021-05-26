@@ -8,7 +8,7 @@ spec:
     namespaces:
       - "prueba"      
     kinds:
-      - apiGroups: [""]
+      - apiGroups: ["*"]
         kinds: ["Deployment"]
   parameters:
     replicas: 3

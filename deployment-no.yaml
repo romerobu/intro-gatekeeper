@@ -15,7 +15,6 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  namespace: prueba
 spec:
   selector:
     matchLabels:

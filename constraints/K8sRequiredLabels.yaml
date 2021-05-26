@@ -3,7 +3,7 @@ kind: K8sRequiredLabels
 metadata:
   name: required-label-deployment
 spec:
-  enforcementAction: deny        
+  enforcementAction: deny       
   match:
     namespaces:
       - "prueba"      
