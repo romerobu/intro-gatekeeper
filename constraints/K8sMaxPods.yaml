@@ -1,0 +1,13 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sMaxPods
+metadata:
+  name: deployment-max-pods
+spec:
+  match:
+    namespaces:      
+      - "prueba"
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Deployment"]
+  parameters:
+    replicas: 3

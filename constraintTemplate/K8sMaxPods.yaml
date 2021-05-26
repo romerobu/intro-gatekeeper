@@ -1,0 +1,33 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8smaxpods
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sMaxPods
+      validation:
+        openAPIV3Schema:
+          properties:
+            replicas:
+              type: integer 
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8smaxpods
+
+        violation[{"msg": msg}] {
+          general_violation[{"msg": msg, "field": "deployments"}]
+        }
+
+        general_violation[{"msg": msg, "field": field}] {
+          deployment := input.review.object.spec[field][_]
+          replicas := deployment.replicas
+          max_replicas := input.parameters.replicas
+          replicas > max_replicas
+          msg := sprintf("deployment <%v> pods <%v> is higher than the maximum allowed of <%v>", [replicas, max_replicas])
+        }        
+            
+
+
