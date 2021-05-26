@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: example-no
+  labels:
+          "gatekeeper": "true"  
   annotations:
     image.openshift.io/triggers: |-
       [

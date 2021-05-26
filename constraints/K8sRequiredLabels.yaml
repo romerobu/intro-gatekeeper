@@ -8,7 +8,7 @@ spec:
     namespaces:
       - "prueba"      
     kinds:
-      - apiGroups: [""]
+      - apiGroups: ["*"]
         kinds: ["Deployment"]
   parameters:
-    labels: ["hello-openshift-no"]
+    labels: ["gatekeeper"]
