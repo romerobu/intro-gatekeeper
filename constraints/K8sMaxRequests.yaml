@@ -6,7 +6,7 @@ spec:
   enforcementAction: warn 
   match:
     namespaces:
-      - "prueba"      
+      - "gatekeeper-project"      
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

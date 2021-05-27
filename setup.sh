@@ -14,9 +14,9 @@ fi
 # Create required projects
 
 echo -n "Creating projects..."
-oc new-project prueba2
+oc new-project gatekeeper-project
 oc new-project gatekeeper-system
-oc new-project prueba
+oc new-project gatekeeper-project-excluded
 
 # Set up gatekeeper operator
 
@@ -34,6 +34,7 @@ oc apply -f config/create-gatekeeper.yaml
 # Deploy gatekeeper constraints and templates
 
 echo -n "Deploying constraints..."
+oc apply -f config/config.yaml
 oc apply -f constraintTemplate/K8sMaxPods.yaml
 oc apply -f constraintTemplate/K8sMaxRequests.yaml
 oc apply -f constraintTemplate/K8sRequiredLabels.yaml

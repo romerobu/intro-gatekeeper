@@ -16,6 +16,6 @@ spec:
         version: "v1"
         kind: "Deployment"
   match:
-    - excludedNamespaces: ["prueba2"]
+    - excludedNamespaces: ["gatekeeper-project-excluded"]
       processes: ["webhook"]      
         
