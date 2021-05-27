@@ -1,0 +1,18 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sMaxRequests
+metadata:
+  name: pod-max-requests
+spec:
+  enforcementAction: warn 
+  match:
+    namespaces:
+      - "prueba"      
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    cpu: "100m"
+    memory: "500m"
+                
+        
+            

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-no
+  labels:
+    app: hello-openshift
+  namespace: prueba
+spec:
+  containers:
+    - name: hello-openshift
+      image: openshift/hello-openshift
+      ports:
+        - containerPort: 8080  
+      resources:
+        limits:
+          cpu: "700m"
+          memory: "800m"

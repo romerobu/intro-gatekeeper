@@ -1,0 +1,43 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8smaxrequests
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sMaxRequests
+      validation:
+        openAPIV3Schema:
+          properties:
+            cpu:
+              type: string
+            memory:
+              type: string       
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8smaxrequests
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec["containers"][_]
+          memory := input.parameters.memory
+          input_memory := container.resources.limits.memory
+          endswith(memory, "m")
+          number_memory := to_number(replace(memory, "m", ""))
+          number_input_memory := to_number(replace(input_memory, "m", ""))
+          number_input_memory > number_memory
+          msg := sprintf("Requested memory %v is higher than allowed %v", [input_memory, memory])
+        }
+
+        violation[{"msg": msg}] {
+          container := input.review.object.spec["containers"][_]
+          cpu := input.parameters.cpu
+          input_cpu := container.resources.limits.cpu
+          endswith(cpu, "m")
+          number_cpu := to_number(replace(cpu, "m", ""))
+          number_input_cpu := to_number(replace(input_cpu, "m", ""))
+          number_input_cpu > number_cpu
+          msg := sprintf("Requested cpu %v is higher than allowed %v", [input_cpu, cpu])
+        }         
+
