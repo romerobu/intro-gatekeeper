@@ -1,0 +1,32 @@
+= Gatekeeper
+// Create TOC wherever needed
+:toc: macro
+:sectanchors:
+:sectnums: 
+:source-highlighter: pygments
+:imagesdir: images
+// Start: Enable admonition icons
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+ifndef::env-github[]
+:icons: font
+endif::[]
+// End: Enable admonition icons
+
+
+// Create the Contents here
+toc::[]
+
+== Introduction to OPA
+
+== What is Gatekeeper?
+
+== Install Gatekeeper operator
+
+
+
