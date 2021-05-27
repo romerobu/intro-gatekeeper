@@ -28,5 +28,29 @@ toc::[]
 
 == Install Gatekeeper operator
 
+== Gatekeeper operator features
+
+=== Constraint Templates
+
+=== Constraints
+
+=== Admission webhook
+
+=== Config
+
+=== Audit, Syncing and Debugging
+
+== Use cases
+
+=== Max pod replicas
+
+=== Max containers resources
+
+=== Restrictions across namespaces
+
+=== Restrictions without auditing a specifc resource
+
+=== Missing labels
+
 
 
