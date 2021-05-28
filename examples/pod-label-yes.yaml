@@ -4,7 +4,7 @@ metadata:
   name: pod-yes
   labels:
     app: hello-openshift
-  namespace: gatekeeper-project
+  namespace: gatekeeper-system
 spec:
   containers:
     - name: hello-openshift

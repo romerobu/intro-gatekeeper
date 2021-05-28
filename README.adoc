@@ -42,15 +42,121 @@ toc::[]
 
 == Use cases
 
+Here you can find some basic examples about how to implement restrictions and how they work.
+
 === Max pod replicas
+
+With this rule you are limiting the amount of replicas for a deployment. This constraint is limited to namespace "gatekeeper-project" and resource "Deployment". Enforcement action is "Deny" and max replicas allowed is 3.
+
+This means you won't be able to create a deployment with more replicas than allowed and you will be prompted with error message "Deployment %v pods is higher than the maximum allowed of 3".
+
+If you try to create a deployment in a different namespace (not excluded by Config) this constraint won't apply.
+
+1. Create a valid deployment.
+
+[source, bash]
+----
+oc apply -f examples/deployment-yes.yaml
+----
+
+2. Create a non-valid deployment within "gatekeeper-project" namespace.
+
+[source, bash]
+----
+oc apply -f examples/deployment-no.yaml
+----
+
+3. Create a non-valid deployment in a non-excluded namespace "gatekeeper-system".
+
+[source, bash]
+----
+oc apply -f examples/deployment-no.yaml -n gatekeeper-system
+----
+
+4. Create a non-valid deployment in an excluded namespace.
+
+
+[source, bash]
+----
+oc apply -f examples/deployment-no.yaml -n getekeeper-project-excluded
+----
 
 === Max containers resources
 
+In this case, cosntraint is limitating the resources a Pod can request (memory and cpu) within "gatekeeper-project" namespace. As memory and cpu resources request can be measured in different units it would
+be useful to estandarize this calculation to be able to convert constraint limit unit to a different one.
+
+1. Create valid Pod.
+
+[source, bash]
+----
+oc apply -f examples/pod-yes.yaml
+----
+
+
+2. Create non-valid Pod.
+
+[source, bash]
+----
+oc apply -f examples/pod-no.yaml -n gatekeeper-project
+----
+
+
+3. Create non-valid Pod in "gatekeeper-project-excluded" namespace.
+
+[source, bash]
+----
+oc apply -f examples/pod-no.yaml -n gatekeeper-project-excluded
+----
+
+
+4. Create a non-valid Pod in a different non-excluded namespace.
+
+[source, bash]
+----
+oc apply -f examples/pod-no.yaml -n gatekeeper-system
+----
+
+
+5. Create a Deployment with request values higher than specified by Constraint. This deployment will create a ReplicaSet resource which won't be able to scale as Pod doesn't fulfill requirements.
+If you go to ReplicaSet events, you should be prompted with an error message as your deployment is trying to create Pods which request higher values than allowed.
+
+[source, bash]
+----
+oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
+----
+
+
 === Restrictions across namespaces
+
 
 === Restrictions without auditing a specifc resource
 
 === Missing labels
 
+For this use case you will test a Constraint which limits the use of labels. This constraints forces you to create deployments including a required label called "gatekeeper" otherwise you won't be able to create any deployment.
+
+1. Create a valid Deployment within "gatekeeper-system" namespace.
+
+[source, bash]
+----
+oc apply -f examples/deployment-label-yes.yaml
+----
+
+
+2. Create a non-valid Deployment within "gatekeeper-system" namespace.
+
+[source, bash]
+----
+oc apply -f examples/deployment-label-no.yaml
+----
+
+
+3. Create a Pod missing the required label. As constraint is auditing only Deployment resources, you should be able to create it.
+
+[source, bash]
+----
+oc apply -f examples/pod-label-yes.yaml
+----
 
 

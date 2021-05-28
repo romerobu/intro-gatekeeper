@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: example-yes
-  labels:
-          "gatekeeper": "true"  
   annotations:
     image.openshift.io/triggers: |-
       [
@@ -15,7 +13,7 @@ metadata:
           "fieldPath": "spec.template.spec.containers[0].image"
         }
       ]
-  namespace: gatekeeper-project
+  namespace: gatekeeper-system
 spec:
   selector:
     matchLabels:

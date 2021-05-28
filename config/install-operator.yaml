@@ -1,29 +1,13 @@
----
-apiVersion: operators.coreos.com/v1alpha1
-kind: CatalogSource
-metadata:
-  name: gatekeeper-operator
-  namespace: gatekeeper-system
-spec:
-  displayName: Gatekeeper Operator Upstream
-  image: <index image name>
-  publisher: github.com/gatekeeper/gatekeeper-operator
-  sourceType: grpc
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: gatekeeper-operator
-  namespace: gatekeeper-system
----
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: gatekeeper-operator-sub
-  namespace: gatekeeper-system
+  name: gatekeeper-operator-product
+  namespace: openshift-operators
 spec:
-  name: gatekeeper-operator
-  channel: alpha
-  source: gatekeeper-operator
-  sourceNamespace: gatekeeper-system
+  channel: stable
+  installPlanApproval: Automatic
+  name: gatekeeper-operator-product
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: gatekeeper-operator-product.v0.1.2
 

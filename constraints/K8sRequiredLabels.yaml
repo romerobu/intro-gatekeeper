@@ -6,7 +6,7 @@ spec:
   enforcementAction: deny       
   match:
     namespaces:
-      - "gatekeeper-project"      
+      - "gatekeeper-system"      
     kinds:
       - apiGroups: ["*"]
         kinds: ["Deployment"]

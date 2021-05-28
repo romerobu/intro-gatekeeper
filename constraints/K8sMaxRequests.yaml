@@ -3,7 +3,7 @@ kind: K8sMaxRequests
 metadata:
   name: pod-max-requests
 spec:
-  enforcementAction: warn 
+  enforcementAction: deny 
   match:
     namespaces:
       - "gatekeeper-project"      
