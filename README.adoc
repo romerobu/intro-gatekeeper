@@ -196,6 +196,11 @@ spec:
 
 [source, bash]
 ----
+oc get config.config.gatekeeper.sh/config -o yaml
+----
+
+[source, bash]
+----
 apiVersion: config.gatekeeper.sh/v1alpha1
 kind: Config
 metadata:
@@ -320,13 +325,7 @@ oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 
 For this use case you will test a Constraint which limits the use of labels. This constraints forces you to create deployments including a required label called "gatekeeper" otherwise you won't be able to create any deployment.
 
-==== Create a valid Deployment within "gatekeeper-system" namespace.
-
-[source, bash]
-----
-oc apply -f examples/deployment-label-yes.yaml
-----
-
+Furthermore we are going to test how reactive gatekeeper can become. This means if webhook is able to detect existing violations for a recently created constraint.
 
 ==== Create a non-valid Deployment within "gatekeeper-system" namespace.
 
@@ -335,6 +334,53 @@ oc apply -f examples/deployment-label-yes.yaml
 oc apply -f examples/deployment-label-no.yaml
 ----
 
+==== Deploy missing labels constraint.
+
+[source, bash]
+----
+oc apply -f constraintTemplate/K8sRequiredLabels.yaml
+oc apply -f constraints/K8sRequiredLabels.yaml
+----
+
+We need to wait audit interval time and check constraint status.
+
+[source, bash]
+----
+oc get k8srequiredlabels.constraints.gatekeeper.sh/required-label-deployment -o yaml
+
+...
+  totalViolations: 1
+  violations:
+  - enforcementAction: deny
+    kind: Deployment
+    message: 'you must provide labels: {"gatekeeper"}'
+    name: example-no
+    namespace: gatekeeper-system
+...
+----
+
+Then try to create a couple of valid a non valid deployments to test working constraints.
+You won't be able to create a new deployment without "gatekeeper" label as before.
+
+Finally if you delete the existing deployment which violates missing labels constraint, total violations will be down to O.
+
+[source, bash]
+----
+oc delete deployment example-no
+oc get k8srequiredlabels.constraints.gatekeeper.sh/required-label-deployment -o yaml
+
+...
+  totalViolations: 0
+...
+----
+
+==== Create a valid Deployment within "gatekeeper-system" namespace.
+
+[source, bash]
+----
+oc apply -f examples/deployment-label-yes.yaml
+oc apply -f examples/deployment-label-no-2.yaml
+----
 
 ==== Create a Pod missing the required label. As constraint is auditing only Deployment resources, you should be able to create it.
 
