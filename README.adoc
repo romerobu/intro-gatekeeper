@@ -81,6 +81,13 @@ Gatekeeper is a Kubernetes admission webhook resource which defines two differen
 
 Webhooks values like timeouts and failure policy can be configured to ignore certain type of errors, allow request in specific conditions, tune performance or customize availability. Changing these configuration is not covered on this repo but you can find the information https://open-policy-agent.github.io/gatekeeper/website/docs/customize-admission[here].
 
+You can check current admission hook configuration with this command:
+
+
+[source, bash]
+----
+oc get ValidatingWebhookConfiguration gatekeeper-validating-webhook-configuration -o yaml
+----
 
 === Config
 
