@@ -26,19 +26,87 @@ toc::[]
 
 == What is Gatekeeper?
 
+Gatekeeper is a "validating webhook that enforces CRD-based policies executed by Open Policy Agent". Gatekeeper allows to define admission and constraints scenarios via templates and to see what resources are violated.
+
+Gatekeeper is offered as an Operator on Red Hat Openshift marketplace and includes a parameterized policy library, constraints and constraint templates resources and audit feature.
+
+Even though Gatekeeper works according to default values, these can be overrided. By default if webhook is not working as expected, constraints will not be enforced.
+
 == Install Gatekeeper operator
+
+Gatekeeper operator can be installed via Red Hat Marketplace or by creating a Subscription resource.
+
+ - Console:
+
+   * Navigate to Operators marketplace
+   * Install operator
+   * Create Gatekeeper resource
+
+ - Subscription:
+   
+   * Create Subscription resource as in config/install-operator.yaml
+   * Create Gatekeeper resource as in config/create-gatekeeper.yaml
+
+Additionally in this repo you can find a script called "setup.sh" which creates all the namespaces requires for this exercise plus the operator resources for installation.
+
+[source, bash]
+----
+./setup.sh
+----
+
+Apart from Openshift Gatekeeper operator, you can install this feature using helm charts available here [paste].
 
 == Gatekeeper operator features
 
 === Constraint Templates
 
+Constraint templates define the pattern of the constraint and the Rego rule defined as constraint. Most of these patterns are defined by iterating through the resource the constraint is auditin and comparing this value with the threshold specified by the constraint. You can use logical operator, type transformation and looping as part of it.
+
 === Constraints
+
+Constraint resources defined how the template must be enforced as it specified the value to be hooked and how. Constraints must be created after the template is implemented. 
+Constraints define:
+ 
+ - Parameters: threshold values
+ - Kinds: list of object to which the constraint will apply.
+ - Scope: cluster-scoped or namespace-scope resources affected by the constraint. This works together with namespaces excluded by config file.
+ - Namespace: apply the constraint to an specific namespace [Añadir un ejemplo de esto funcionando en conjunto con el excluded]
+ - Excluded namespace: apply the constraint to a non listed namespace.
+ - Label selector: apply constraint to these labeled resources.
+ - Namespace selector: apply constraint to specific synced namespaces.
 
 === Admission webhook
 
+How to override configuration: https://open-policy-agent.github.io/gatekeeper/website/docs/customize-admission
+
 === Config
 
+https://open-policy-agent.github.io/gatekeeper/website/docs/exempt-namespaces
+
 === Audit, Syncing and Debugging
+
+==== Audit
+
+Audit feature registered all the events related to the status of a constraint by enabling periodic evaluation of resources against the policies.
+Audit configuration values like memory consumption, scope or limits can be overrided to improve performance.
+Audit valus can be actual cluster values or data from cache. For this seconf option you must ensure that every object is properly synced.
+
+==== Debugging
+
+Constraints must specify an enforcement action which is deny by default. Other option is dryrun mode which allows to test constraint without making actual changes while are registered as violations in the audit status section.
+Logs details are configured when creating the Gatekeeper resource.
+
+Additionally in Config resource you can enable traces for some resources and a specific user. These traces will be logged to the stdout of the Gatekeeper controller.
+
+==== Syncing
+
+Config resource defines a list of object to be synced by defining group, version and kind. Once this list of objects is synced, they can be accesed via data inventory document following this structure:
+
+ -  data.inventory.cluster-group-kind-name
+ -  data.inventory.namespace-group-kind-name
+
+
+==== Mutation?? Investigar
 
 == Use cases
 
