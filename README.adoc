@@ -196,6 +196,11 @@ spec:
 
 [source, bash]
 ----
+oc get config.config.gatekeeper.sh/config -o yaml
+----
+
+[source, bash]
+----
 apiVersion: config.gatekeeper.sh/v1alpha1
 kind: Config
 metadata:
