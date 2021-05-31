@@ -60,17 +60,19 @@ Apart from Openshift Gatekeeper operator, you can install this feature using hel
 
 === Constraint Templates
 
-Constraint templates define the pattern of the constraint and the Rego rule defined as constraint. Most of these patterns are defined by iterating through the resource the constraint is auditing and comparing this value with the threshold specified by the constraint. You can use logical operator, type transformation and looping as part of it.
+Constraint templates define the pattern of the constraint and the Rego rule. Most of these patterns are defined by iterating through the resource the constraint is auditing and comparing this value with the threshold specified by the constraint. You can use logical operator, type transformation and looping as part of it.
+
+Here you can find information about the https://www.openpolicyagent.org/docs/latest/policy-reference/[policy reference].
 
 === Constraints
 
-Constraint resources defined how the template must be enforced as it specified the value to be hooked and how. Constraints must be created after the template is implemented. 
+Constraint resources defined how the template must be enforced as it specifies the value to be hooked and how. Constraints must be created after the template is implemented. 
 Constraints define:
  
- - Parameters: threshold values
+ - Parameters: threshold values.
  - Kinds: list of object to which the constraint will apply.
  - Scope: cluster-scoped or namespace-scope resources affected by the constraint. This works together with namespaces excluded by config file.
- - Namespace: apply the constraint to an specific namespace [Añadir un ejemplo de esto funcionando en conjunto con el excluded]
+ - Namespace: apply the constraint to an specific namespace.
  - Excluded namespace: apply the constraint to a non listed namespace.
  - Label selector: apply constraint to these labeled resources.
  - Namespace selector: apply constraint to specific synced namespaces.
@@ -102,7 +104,7 @@ Audit configuration values like memory consumption, scope or limits can be overr
 Some of these values are:
 
 - Constraint violations limit: default to 20.
-- Audit chunk size: default to infinite. To limit memory consumtion of the auditing Pod.
+- Audit chunk size: default to infinite. To limit memory consumption of the auditing Pod.
 - Audit interval: default to 60 seconds. 
 - Audit from cache: default to false. Audit will request each resource from the Kubernetes API during each cycle of the audit unless you specify this flad and define a match kind resource, in this case it will be audited from cache. Auditing from cache saves time as it doesn't have to audit all resources in the cluster. Not defining match kind resources is equal to set this flag to false.
 
@@ -125,9 +127,14 @@ This feature is interesting not only for its potential to improve performance bu
 == Use cases
 
 Here you can find some basic examples about how to implement restrictions and how they work.
-If you run the ./setup.sh script you will deploy a list of resources that will be tested by creating good and bad resources to test positive and negation violation cases.
+If you run the ./setup.sh script you will deploy a list of resources that will be tested by creating good and bad resources to test positive and negative violation cases.
 
 Here you can check webhook and audit configuration values as well as validation.
+
+[source, bash]
+----
+oc get Subscription gatekeeper-operator-product -n openshift-operators -o yaml
+----
 
 [source, bash]
 ----
@@ -145,30 +152,11 @@ spec:
   startingCSV: gatekeeper-operator-product.v0.1.2
 ----
 
-
 [source, bash]
 ----
-apiVersion: operator.gatekeeper.sh/v1alpha1
-kind: Gatekeeper
-metadata:
-  name: gatekeeper
-spec:
-  audit:
-    replicas: 1
-    logLevel: INFO
-    auditInterval: "30"
-    auditChunkSize: 500
-    constraintViolationsLimit: 5
-    auditFromCache: Enabled
-    # auditMatchKindOnly: true
-  validatingWebhook: Enabled
-  webhook:
-    logLevel: INFO
-    replicas: 2
-  image:
-    image: >-
-      registry.redhat.io/rhacm2/gatekeeper-rhel8@sha256:5e66cd510a80ef5753c66c6b50137de0093fe75c0606f5f8ce4afce7d7bca050
+oc get gatekeeper gatekeeper -o yaml
 ----
+
 
 [source, bash]
 ----
@@ -252,7 +240,7 @@ oc apply -f examples/deployment-yes.yaml
 
 [source, bash]
 ----
-oc apply -f examples/deployment-no.yaml
+oc apply -f examples/deployment-no.yaml -n gatekeeper-project
 ----
 
 ==== Create a non-valid deployment in a non-excluded namespace "gatekeeper-system".
@@ -267,12 +255,12 @@ oc apply -f examples/deployment-no.yaml -n gatekeeper-system
 
 [source, bash]
 ----
-oc apply -f examples/deployment-no.yaml -n getekeeper-project-excluded
+oc apply -f examples/deployment-no.yaml -n gatekeeper-project-excluded
 ----
 
 === Max containers resources
 
-In this case, cosntraint is limitating the resources a Pod can request (memory and cpu) within "gatekeeper-project" namespace. As memory and cpu resources request can be measured in different units it would
+In this case, constraint is limitating the resources a Pod can request (memory and cpu) within "gatekeeper-project" namespace. As memory and cpu resources request can be measured in different units it would
 be useful to estandarize this calculation to be able to convert constraint limit unit to a different one.
 
 ==== Create valid Pod.
@@ -317,6 +305,10 @@ oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 
 
 === Restrictions across namespaces
+
+In this case we are going to test how to limit constraints scope within the cluster and across namespaces.
+First of all some namespaces have been excluded via Config resource for webhook actions. This means we can audit and sync resources in this namespace but webhook won't execute on it.
+To test this use case we have create a constraint matching the whole cluster less the excluded namespace.
 
 
 === Restrictions without auditing a specifc resource

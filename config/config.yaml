@@ -2,28 +2,30 @@ apiVersion: config.gatekeeper.sh/v1alpha1
 kind: Config
 metadata:
   name: config
-  namespace: "gatekeeper-system"
+  namespace: "openshift-gatekeeper-system"
 spec:
   sync:
     syncOnly:
-     #- group: ""
-     #   version: "v1"
-     #   kind: "Namespace"
       - group: ""
         version: "v1"
         kind: "Pod"
       - group: "*"
         version: "v1"
         kind: "Deployment"
-  match:
-    - excludedNamespaces: ["gatekeeper-project-excluded"]
-      processes: ["webhook"]     
-  validation:  
-    traces:
-      - user: cromerob
-        kind:
-          group: ""
-          version: "v1"
-          kind: "Namespace"
-          dump: "All"  
+      - group: "*"
+        version: "v1"
+        kind: "ReplicaSet"  
+  # se puede excluir a nivel de constraint o de cluster con config
+  # lo está ignorando      
+    match:
+      - excludedNamespaces: ["gatekeeper-project-excluded"]
+        processes: ["*"]      
+  #validation:  
+  #   traces:
+  #    - user: cromerob
+  #       kind:
+  #         group: ""
+  #         version: "v1"
+  #         kind: "Namespace"
+  #        dump: "All"  
         

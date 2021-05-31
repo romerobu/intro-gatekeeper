@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sReplicaSet
+metadata:
+  name: replicaset-deployment
+spec:
+  enforcementAction: deny       
+  match:
+    namespaces:
+      - "gatekeeper-system"      
+    kinds:
+      - apiGroups: ["*"]
+        kinds: ["ReplicaSet"]

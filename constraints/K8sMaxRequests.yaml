@@ -5,8 +5,8 @@ metadata:
 spec:
   enforcementAction: deny 
   match:
-    namespaces:
-      - "gatekeeper-project"      
+    excludedNamespaces:
+      - "gatekeeper-project-excluded"      
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
