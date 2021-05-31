@@ -5,6 +5,8 @@ metadata:
 spec:
   enforcementAction: deny      
   match:
+    excludedNamespaces:
+      - "gatekeeper-project-excluded"                
     namespaces:
       - "gatekeeper-project"      
     kinds:

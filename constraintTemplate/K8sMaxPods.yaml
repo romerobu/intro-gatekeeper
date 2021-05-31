@@ -19,7 +19,6 @@ spec:
 
         violation[{"msg": msg}] {
           replicas := input.review.object.spec.replicas
-          #ns := input.review.object.metadata.namespace
           max_replicas := input.parameters.replicas
           to_number(replicas) > to_number(max_replicas)
           msg := sprintf("deployment %v pods is higher than the maximum allowed of %v", [replicas, max_replicas])

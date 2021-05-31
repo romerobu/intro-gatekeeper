@@ -238,12 +238,16 @@ If you try to create a deployment in a different namespace (not excluded by Conf
 oc apply -f examples/deployment-yes.yaml
 ----
 
+Expected result: Ok.
+
 ==== Create a non-valid deployment within "gatekeeper-project" namespace.
 
 [source, bash]
 ----
 oc apply -f examples/deployment-no.yaml -n gatekeeper-project
 ----
+
+Expected result: Fail.
 
 ==== Create a non-valid deployment in a non-excluded namespace "gatekeeper-system".
 
@@ -252,6 +256,8 @@ oc apply -f examples/deployment-no.yaml -n gatekeeper-project
 oc apply -f examples/deployment-no.yaml -n gatekeeper-system
 ----
 
+Expected result: Fail.
+
 ==== Create a non-valid deployment in an excluded namespace.
 
 
@@ -259,6 +265,8 @@ oc apply -f examples/deployment-no.yaml -n gatekeeper-system
 ----
 oc apply -f examples/deployment-no.yaml -n gatekeeper-project-excluded
 ----
+
+Expected result: Ok.
 
 === Max containers resources
 
@@ -271,6 +279,8 @@ In this case, constraint is limitating the resources a Pod can request (memory a
 oc apply -f examples/pod-yes.yaml
 ----
 
+Expected result: Ok.
+
 ==== Create non-valid Pod.
 
 [source, bash]
@@ -278,6 +288,7 @@ oc apply -f examples/pod-yes.yaml
 oc apply -f examples/pod-no.yaml -n gatekeeper-project
 ----
 
+Expected result: Fail.
 
 ==== Create non-valid Pod in "gatekeeper-project-excluded" namespace.
 
@@ -288,6 +299,8 @@ As this namespace is excluded for this constraint, you should be able to create 
 oc apply -f examples/pod-no.yaml -n gatekeeper-project-excluded
 ----
 
+Expected result: Ok.
+
 ==== Create a non-valid Pod in a different non-excluded namespace.
 
 [source, bash]
@@ -295,7 +308,11 @@ oc apply -f examples/pod-no.yaml -n gatekeeper-project-excluded
 oc apply -f examples/pod-no.yaml -n gatekeeper-system
 ----
 
-==== Create a Deployment with request values higher than specified by Constraint. This deployment will create a ReplicaSet resource which won't be able to scale as Pod doesn't fulfill requirements.
+Expected result: Fail.
+
+==== Create a Deployment with request values higher than specified by Constraint. 
+
+This deployment will create a ReplicaSet resource which won't be able to scale as Pod doesn't fulfill requirements.
 If you go to ReplicaSet events, you should be prompted with an error message as your deployment is trying to create Pods which request higher values than allowed.
 
 [source, bash]
@@ -303,6 +320,7 @@ If you go to ReplicaSet events, you should be prompted with an error message as 
 oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 ----
 
+Expected result: Fail.
 
 === Missing labels
 
@@ -316,6 +334,8 @@ Furthermore we are going to test how reactive gatekeeper can become. This means 
 ----
 oc apply -f examples/deployment-label-no.yaml
 ----
+
+Expected result: Ok.
 
 ==== Deploy missing labels constraint.
 
@@ -365,6 +385,9 @@ oc apply -f examples/deployment-label-yes.yaml
 oc apply -f examples/deployment-label-no-2.yaml
 ----
 
+Expected result: Ok.
+Expected result: Fail.
+
 ==== Create a Pod missing the required label. As constraint is auditing only Deployment resources, you should be able to create it.
 
 [source, bash]
@@ -372,4 +395,28 @@ oc apply -f examples/deployment-label-no-2.yaml
 oc apply -f examples/pod-label-yes.yaml
 ----
 
+Expected result: Ok.
 
+=== Deploy constraint using synced values
+
+In this example we are going to use Audit feature to access more resources synced in caché apart from the resource under test. This means that all the resources specified at Config (syncOnly) can be accessed via data.properties.
+
+This constraint within "gatekeeper-system" namespace won't allow to deploy a sole replica set without a deployment. Constraint matches new replica sets, and the template defines the Rego rule to compare deployment names to replica set names via data.properties.
+
+==== Create a valid replica set with a deployment
+
+[source, bash]
+----
+oc apply -f examples/pod-label-yes.yaml
+----
+
+Expected result: Ok.
+
+==== Create a non valid replica set without a deployment
+
+[source, bash]
+----
+oc apply -f examples/pod-label-no.yaml
+----
+
+Expected result: Fail.

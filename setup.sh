@@ -32,14 +32,17 @@ oc apply -f config/create-gatekeeper.yaml
 
 echo -n "Deploying constraints..."
 oc apply -f config/config.yaml
-oc apply -f constraintTemplate/K8sMaxPods.yaml
-oc apply -f constraintTemplate/K8sMaxRequests.yaml
-oc apply -f constraintTemplate/K8sReplicaSet.yaml
-#oc apply -f constraintTemplate/K8sRequiredLabels.yaml
-#oc apply -f constraintTemplate/NsRequiredLabel.yaml
 
 oc apply -f constraints/K8sMaxPods.yaml
+oc apply -f constraintTemplate/K8sMaxPods.yaml
+
+oc apply -f constraintTemplate/K8sMaxRequests.yaml
 oc apply -f constraints/K8sMaxRequests.yaml
+
+oc apply -f constraintTemplate/K8sReplicaSet.yaml
 oc apply -f constraints/K8sReplicaSet.yaml
+
+#oc apply -f constraintTemplate/K8sRequiredLabels.yaml
+#oc apply -f constraintTemplate/NsRequiredLabel.yaml
 #oc apply -f constraints/K8sRequiredLabels.yaml
 #oc apply -f constraints/NsRequiredLabels.yaml
