@@ -6,11 +6,6 @@ spec:
   audit:
     replicas: 1
     logLevel: INFO
-    #auditInterval: "30"
-    #auditChunkSize: 500
-    #constraintViolationsLimit: 5
-    #auditFromCache: Enabled
-    #auditMatchKindOnly: true
   validatingWebhook: Enabled
   webhook:
     logLevel: INFO

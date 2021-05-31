@@ -15,17 +15,7 @@ spec:
       - group: "*"
         version: "v1"
         kind: "ReplicaSet"  
-  # se puede excluir a nivel de constraint o de cluster con config
-  # lo está ignorando      
     match:
       - excludedNamespaces: ["gatekeeper-project-excluded"]
         processes: ["*"]      
-  #validation:  
-  #   traces:
-  #    - user: cromerob
-  #       kind:
-  #         group: ""
-  #         version: "v1"
-  #         kind: "Namespace"
-  #        dump: "All"  
         
