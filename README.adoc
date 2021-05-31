@@ -186,7 +186,7 @@ spec:
 
 [source, bash]
 ----
-oc get config.config.gatekeeper.sh/config -o yaml
+oc get config.config.gatekeeper.sh/config -o yaml -n openshift-gatekeeper-system
 ----
 
 [source, bash]
