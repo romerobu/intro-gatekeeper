@@ -17,5 +17,13 @@ spec:
         kind: "Deployment"
   match:
     - excludedNamespaces: ["gatekeeper-project-excluded"]
-      processes: ["webhook"]      
+      processes: ["webhook"]     
+  validation:  
+    traces:
+      - user: cromerob
+        kind:
+          group: ""
+          version: "v1"
+          kind: "Namespace"
+          dump: "All"  
         
