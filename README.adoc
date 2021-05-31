@@ -54,7 +54,7 @@ Additionally in this repo you can find a script called "setup.sh" which creates 
 ./setup.sh
 ----
 
-Apart from Openshift Gatekeeper operator, you can install this feature using helm charts available here [paste].
+Apart from Openshift Gatekeeper operator, you can install this feature using helm charts available https://open-policy-agent.github.io/gatekeeper/website/docs/install[here].
 
 == Gatekeeper operator features
 
@@ -77,7 +77,10 @@ Constraints define:
 
 === Admission webhook
 
-How to override configuration: https://open-policy-agent.github.io/gatekeeper/website/docs/customize-admission
+Gatekeeper is a Kubernetes admission webhook resource which defines two different admission webhooks, one for checking a request against the installed constraints and another one for checking labels on namespace requests to bypass certain constraints.
+
+Webhooks values like timeouts and failure policy can be configured to ignore certain type of errors, allow request in specific conditions, tune performance or customize availability. Changing these configuration is not covered on this repo but you can find the information https://open-policy-agent.github.io/gatekeeper/website/docs/customize-admission[here].
+
 
 === Config
 
