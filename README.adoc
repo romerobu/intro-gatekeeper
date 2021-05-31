@@ -39,7 +39,7 @@ Gatekeeper operator can be installed via Red Hat Marketplace or by creating a Su
  - Console:
 
    * Navigate to Operators marketplace
-   * Install operator
+   * Install "Gatekeeper Operator"
    * Create Gatekeeper resource
 
  - Subscription:
@@ -47,7 +47,7 @@ Gatekeeper operator can be installed via Red Hat Marketplace or by creating a Su
    * Create Subscription resource as in config/install-operator.yaml
    * Create Gatekeeper resource as in config/create-gatekeeper.yaml
 
-Additionally in this repo you can find a script called "setup.sh" which creates all the namespaces requires for this exercise plus the operator resources for installation.
+Additionally in this repo you can find a script called "setup.sh" which creates all the namespaces requires for this exercise plus the operator resources for installation and constraints.
 
 [source, bash]
 ----
@@ -92,6 +92,8 @@ oc get ValidatingWebhookConfiguration gatekeeper-validating-webhook-configuratio
 ----
 
 === Config
+
+Completar todas las configs que se pueden poner
 
 https://open-policy-agent.github.io/gatekeeper/website/docs/exempt-namespaces
 
@@ -260,8 +262,7 @@ oc apply -f examples/deployment-no.yaml -n gatekeeper-project-excluded
 
 === Max containers resources
 
-In this case, constraint is limitating the resources a Pod can request (memory and cpu) within "gatekeeper-project" namespace. As memory and cpu resources request can be measured in different units it would
-be useful to estandarize this calculation to be able to convert constraint limit unit to a different one.
+In this case, constraint is limitating the resources a Pod can request (memory and cpu) within the whole cluster less excluded namespace "gatekeeper-project-excluded" namespace. As memory and cpu resources request can be measured in different units it would be useful to estandarize this calculation to be able to convert constraint limit unit to a different one.
 
 ==== Create valid Pod.
 
@@ -269,7 +270,6 @@ be useful to estandarize this calculation to be able to convert constraint limit
 ----
 oc apply -f examples/pod-yes.yaml
 ----
-
 
 ==== Create non-valid Pod.
 
@@ -281,11 +281,12 @@ oc apply -f examples/pod-no.yaml -n gatekeeper-project
 
 ==== Create non-valid Pod in "gatekeeper-project-excluded" namespace.
 
+As this namespace is excluded for this constraint, you should be able to create pod which exceed request parameters.
+
 [source, bash]
 ----
 oc apply -f examples/pod-no.yaml -n gatekeeper-project-excluded
 ----
-
 
 ==== Create a non-valid Pod in a different non-excluded namespace.
 
@@ -293,7 +294,6 @@ oc apply -f examples/pod-no.yaml -n gatekeeper-project-excluded
 ----
 oc apply -f examples/pod-no.yaml -n gatekeeper-system
 ----
-
 
 ==== Create a Deployment with request values higher than specified by Constraint. This deployment will create a ReplicaSet resource which won't be able to scale as Pod doesn't fulfill requirements.
 If you go to ReplicaSet events, you should be prompted with an error message as your deployment is trying to create Pods which request higher values than allowed.
@@ -303,15 +303,6 @@ If you go to ReplicaSet events, you should be prompted with an error message as 
 oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 ----
 
-
-=== Restrictions across namespaces
-
-In this case we are going to test how to limit constraints scope within the cluster and across namespaces.
-First of all some namespaces have been excluded via Config resource for webhook actions. This means we can audit and sync resources in this namespace but webhook won't execute on it.
-To test this use case we have create a constraint matching the whole cluster less the excluded namespace.
-
-
-=== Restrictions without auditing a specifc resource
 
 === Missing labels
 
