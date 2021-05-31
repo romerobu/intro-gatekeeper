@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-no
+  name: example-no-2
   annotations:
     image.openshift.io/triggers: |-
       [
