@@ -234,7 +234,7 @@ Expected result: Ok.
 
 [source, bash]
 ----
-oc apply -f examples/deployment-no.yaml -n gatekeeper-project
+oc apply -f examples/deployment-no-project.yaml
 ----
 
 Expected result: Fail.
