@@ -1,7 +1,7 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sResourceQuota
 metadata:
-  name: replicaset-deployment
+  name: resourcequota
 spec:
   enforcementAction: deny
   match:

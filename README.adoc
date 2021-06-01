@@ -399,24 +399,24 @@ Expected result: Ok.
 
 === Deploy constraint using synced values
 
-In this example we are going to use Audit feature to access more resources synced in caché apart from the resource under test. This means that all the resources specified at Config (syncOnly) can be accessed via data.properties.
+In this example we are going to use Audit feature to access more resources synced in cache apart from the resource under test. This means that all the resources specified at Config (syncOnly) can be accessed via data.properties.
 
-This constraint within "gatekeeper-system" namespace won't allow to deploy a sole replica set without a deployment. Constraint matches new replica sets, and the template defines the Rego rule to compare deployment names to replica set names via data.properties.
+This constraint within "gatekeeper-resourcequota" namespace won't allow to deploy a pod into a namespace without an existing resource quota. Constraint matches new pods, and the template defines the Rego rule to check existing resource quotas via data.properties.
 
-==== Create a valid replica set with a deployment
-
-[source, bash]
-----
-oc apply -f examples/pod-label-yes.yaml
-----
-
-Expected result: Ok.
-
-==== Create a non valid replica set without a deployment
+==== Create a non valid pod
 
 [source, bash]
 ----
-oc apply -f examples/pod-label-no.yaml
+oc apply -f examples/pod-rq-no.yaml
 ----
 
 Expected result: Fail.
+
+==== Create a valid pod
+
+[source, bash]
+----
+oc apply -f examples/pod-rq-yes.yaml
+----
+
+Expected result: Ok.

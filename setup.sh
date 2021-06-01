@@ -14,6 +14,7 @@ echo -n "Creating projects..."
 oc new-project gatekeeper-system
 oc new-project gatekeeper-project-excluded
 oc new-project gatekeeper-project
+oc new-project gatekeeper-resourcequota
 
 # Set up gatekeeper operator
 
@@ -43,13 +44,14 @@ oc apply -f constraintTemplate/K8sMaxPods.yaml
 
 oc apply -f constraintTemplate/K8sMaxRequests.yaml
 
-oc apply -f constraintTemplate/K8sReplicaSet.yaml
+oc apply -f constraintTemplate/K8sResourceQuota.yaml
 
 sleep 10
 
 oc apply -f constraints/K8sMaxPods.yaml
 oc apply -f constraints/K8sMaxRequests.yaml
-oc apply -f constraints/K8sReplicaSet.yaml
+oc apply -f constraints/K8sResourceQuota.yaml
+
 
 #oc apply -f constraintTemplate/K8sRequiredLabels.yaml
 #oc apply -f constraintTemplate/NsRequiredLabel.yaml
