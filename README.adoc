@@ -206,9 +206,9 @@ spec:
       - group: ""
         version: "v1"
         kind: "ResourceQuota"        
-   #match:
-   #   - excludedNamespaces: ["gatekeeper-project-excluded"]
-   #     processes: ["*"]
+  match:
+    - excludedNamespaces: ["gatekeeper-project-excluded"]
+      processes: ["*"]
 ----
 
 Later on you will deploy a series of constraints and templates tested in the next steps.
