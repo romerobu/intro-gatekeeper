@@ -1,14 +1,14 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sMaxPods
+kind: K8sRequiredLabels
 metadata:
-  name: deployment-max-pods
+  name: required-label-deployment
 spec:
-  enforcementAction: deny      
+  enforcementAction: deny       
   match:
     namespaces:
-      - "gatekeeper-project"      
+      - "gatekeeper-system"      
     kinds:
       - apiGroups: ["*"]
         kinds: ["Deployment"]
   parameters:
-    replicas: 3
+    labels: ["gatekeeper"]

@@ -18,7 +18,6 @@ spec:
       - group: ""
         version: "v1"
         kind: "ResourceQuota"        
-    match:
-      - excludedNamespaces: ["gatekeeper-project-excluded"]
-        processes: ["*"]      
-        
+   #match:
+   #   - excludedNamespaces: ["gatekeeper-project-excluded"]
+   #     processes: ["*"]      
