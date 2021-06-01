@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-rq-no
+  labels:
+    app: hello-openshift
+  namespace: gatekeeper-resourcequota
+spec:
+  containers:
+    - name: hello-openshift
+      image: openshift/hello-openshift
+      ports:
+        - containerPort: 8080
+

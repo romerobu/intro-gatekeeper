@@ -256,7 +256,7 @@ Expected result: Fail.
 oc apply -f examples/deployment-no.yaml -n gatekeeper-system
 ----
 
-Expected result: Fail.
+Expected result: Ok.
 
 ==== Create a non-valid deployment in an excluded namespace.
 

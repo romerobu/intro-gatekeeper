@@ -8,13 +8,16 @@ spec:
     syncOnly:
       - group: ""
         version: "v1"
-        kind: "Pod"
+        kind: "Pod"            
       - group: "*"
         version: "v1"
         kind: "Deployment"
-      - group: "*"
+      - group: ""
+        version: "*"
+        kind: "Namespace"
+      - group: ""
         version: "v1"
-        kind: "ReplicaSet"  
+        kind: "ResourceQuota"        
     match:
       - excludedNamespaces: ["gatekeeper-project-excluded"]
         processes: ["*"]      

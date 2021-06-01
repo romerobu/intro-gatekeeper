@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sResourceQuota
+metadata:
+  name: replicaset-deployment
+spec:
+  enforcementAction: deny
+  match:
+    excludedNamespaces:
+      - "gatekeeper-project-excluded"    
+    namespaces:
+      - "gatekeeper-resourcequota"  
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"] 

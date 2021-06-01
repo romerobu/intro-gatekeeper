@@ -1,0 +1,29 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sresourcequota
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sResourceQuota
+      validation:
+        openAPIV3Schema:
+          properties:
+            name:
+              type: string       
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sresourcequota
+
+        violation[{"msg": msg}] {
+          requestns := input.review.object.metadata.namespace
+          existingrqs := {e | e := data.inventory.namespace[requestns]["v1"]["ResourceQuota"][_]["metadata"]["namespace"]}
+          not ns_exists(requestns,existingrqs)
+          msg = sprintf("The Pod could not be created because the %v namespace doesn't contain any ResourceQuota object",[requestns])
+        }
+
+        ns_exists(ns,arr) {
+          arr[_] = ns
+        }
