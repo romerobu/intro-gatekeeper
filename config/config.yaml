@@ -20,4 +20,12 @@ spec:
         kind: "ResourceQuota"        
   match:
     - excludedNamespaces: ["gatekeeper-project-excluded"]
-      processes: ["*"]      
+      processes: ["*"]
+  validation:
+    traces:
+      - user: "cromerob"
+        kind:
+          group: "*"
+          version: "v1"
+          kind: "Deployment"
+          dump: "All"      
