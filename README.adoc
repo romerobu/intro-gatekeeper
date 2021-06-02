@@ -93,8 +93,8 @@ oc get ValidatingWebhookConfiguration gatekeeper-validating-webhook-configuratio
 
 === Config
 
-Completar todas las configs que se pueden poner
 
+* Pending
 https://open-policy-agent.github.io/gatekeeper/website/docs/exempt-namespaces
 
 === Audit, Syncing and Debugging
@@ -312,10 +312,10 @@ oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 
 Expected result: Fail.
 
-* Para solucionar problema de las unidades: 
+Para solucionar problema de las unidades: 
 
-oc delete k8smaxrequests.constraints.gatekeeper.sh/pod-max-requests
-oc delete constraintTemplate k8smaxrequests
+oc delete k8smaxrequests.constraints.gatekeeper.sh/pod-max-requests +
+oc delete constraintTemplate k8smaxrequests +
 
 
 === Missing labels
