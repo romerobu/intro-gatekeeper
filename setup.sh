@@ -62,3 +62,9 @@ oc apply -f constraints/K8sResourceQuota.yaml
 #oc apply -f constraintTemplate/NsRequiredLabel.yaml
 #oc apply -f constraints/K8sRequiredLabels.yaml
 #oc apply -f constraints/NsRequiredLabels.yaml
+
+# Create roles
+
+oc apply -f roles/gatekeeper-ops-const-role.yaml
+oc apply -f roles/gatekeeper-opa-sec-ops.yaml
+oc apply -f roles/gatekeeper-ops-role.yaml
