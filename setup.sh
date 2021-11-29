@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Install OPA
+
+curl -L -o opa https://github.com/open-policy-agent/opa/releases/download/v0.11.0/opa_linux_amd64
+chmod 755 ./opa
+sudo mv opa /usr/bin
+
+echo -n "OPA client installed"
 
 # Login
 
