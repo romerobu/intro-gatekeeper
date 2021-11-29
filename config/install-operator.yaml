@@ -9,5 +9,4 @@ spec:
   name: gatekeeper-operator-product
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: gatekeeper-operator-product.v0.1.2
-
+  startingCSV: gatekeeper-operator-product.v0.2.1

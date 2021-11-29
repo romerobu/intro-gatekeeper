@@ -13,3 +13,4 @@ spec:
   audit:
     logLevel: DEBUG
     replicas: 1
+
