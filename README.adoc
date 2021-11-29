@@ -198,7 +198,7 @@ Additionally we can verify test coverage to check the amount of lines covered:
 opa test -v rego/maxreplicas/maxreplicas.rego rego/maxreplicas/maxreplicas_test.rego --coverage
 ----
 
-*For this demo lab you will find unit testing for one the rules, but those can be developped for any kind of policy*.
+*For this demo lab you will find unit testing for one of the rules, but those can be developed for any kind of policy*.
 
 Additionally you can rely on the *Rego Playground* framework for developing, testing and debugging your policies. On top of that you can share your policies with your peer to ease the policies development. You can check the existing playground for the previous policy https://play.openpolicyagent.org/p/3tDySGvW4i[here].
 
