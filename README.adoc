@@ -169,6 +169,40 @@ Config resource defines a list of object to be synced by defining group, version
 
 This feature is interesting not only for its potential to improve performance but it allows to implement rules which require access to other resources than the one observed directly by the rule.
 
+
+== Policy testing
+
+Rego rules are written using variable assignations so that OPA searches for variable bindings that make all
+of the expressions true. The rule itself can be understood as: rule violation is "msg" if [body rule].
+Msg variable will be evaluated according to the result of the rule while if this variable is omitted, it defaults
+to true.
+Policies are tested both as unit testing and functional testing. Functional testing is verified on validation
+section Gatekeeper end to end bundle perform. For unit testing OPA provides a framework to write and
+execute unit tests. Those rego policies are decoupled from the constraint template file definition so
+constraints are assembled at runtime.
+Unit tests are expressed as standard Rego rules with a convention that the rule is prefixed with test_. Each
+test will verify rules values so every case must be covered.
+Once every tests are defined in a .rego file format those can be executed using this command:
+
+[source, bash]
+----
+opa test -v rego/maxreplicas/maxreplicas.rego rego/maxreplicas/maxreplicas_test.rego
+----
+
+Test results can be FAIL if the test rule is undefined or generates a non true test result, ERROR if it
+encounters a runtime error, SKIPPED if it is marked as todo_ or PASS if variable binding is correct.
+Additionally we can verify test coverage to check the amount of lines covered:
+
+[source, bash]
+----
+opa test -v rego/maxreplicas/maxreplicas.rego rego/maxreplicas/maxreplicas_test.rego --coverage
+----
+
+*For this demo lab you will find unit testing for one the rules, but those can be developped for any kind of policy*.
+
+Additionally you can rely on the *Rego Playground* framework for developing, testing and debugging your policies. On top of that you can share your policies with your peer to ease the policies development. You can check the existing playground for the previous policy https://play.openpolicyagent.org/p/3tDySGvW4i[here].
+
+
 == Use cases
 
 Here you can find some basic examples about how to implement restrictions and how they work.
