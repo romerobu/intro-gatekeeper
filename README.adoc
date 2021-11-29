@@ -176,10 +176,12 @@ Rego rules are written using variable assignations so that OPA searches for vari
 of the expressions true. The rule itself can be understood as: rule violation is "msg" if [body rule].
 Msg variable will be evaluated according to the result of the rule while if this variable is omitted, it defaults
 to true.
+
 Policies are tested both as unit testing and functional testing. Functional testing is verified on validation
 section Gatekeeper end to end bundle perform. For unit testing OPA provides a framework to write and
 execute unit tests. Those rego policies are decoupled from the constraint template file definition so
 constraints are assembled at runtime.
+
 Unit tests are expressed as standard Rego rules with a convention that the rule is prefixed with test_. Each
 test will verify rules values so every case must be covered.
 Once every tests are defined in a .rego file format those can be executed using this command:
