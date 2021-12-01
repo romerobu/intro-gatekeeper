@@ -15,4 +15,3 @@ spec:
     logLevel: DEBUG
     replicas: 1
     emitAuditEvents: Enabled
-    auditInterval: '15'
