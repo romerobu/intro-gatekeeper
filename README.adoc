@@ -275,15 +275,6 @@ spec:
     syncOnly:
       - group: ""
         version: "v1"
-        kind: "Pod"            
-      - group: "*"
-        version: "v1"
-        kind: "Deployment"
-      - group: ""
-        version: "*"
-        kind: "Namespace"
-      - group: ""
-        version: "v1"
         kind: "ResourceQuota"        
   match:
     - excludedNamespaces: ["gatekeeper-project-excluded"]
