@@ -7,10 +7,13 @@ spec:
   webhook:
     logLevel: DEBUG
     replicas: 2
+    emitAdmissionEvents: Enabled
+    auditInterval: '15'
   image:
     image: >-
       registry.redhat.io/rhacm2/gatekeeper-rhel8@sha256:5e66cd510a80ef5753c66c6b50137de0093fe75c0606f5f8ce4afce7d7bca050
   audit:
     logLevel: DEBUG
     replicas: 1
+    emitAuditEvents: Enabled
 

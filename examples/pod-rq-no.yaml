@@ -11,4 +11,11 @@ spec:
       image: openshift/hello-openshift
       ports:
         - containerPort: 8080
+      resources:
+        requests:
+          memory: 50m
+          cpu: 100m
+        limits:
+          memory: 60m
+          cpu: 120m
 
