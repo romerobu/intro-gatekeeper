@@ -418,4 +418,16 @@ Expected result: Fail.
 oc apply -f examples/pod-rq-yes.yaml
 ----
 
-Expected result: Ok.
+== Dryrun mode
+
+To test audit feature, patch the existing constraints to *dryrun* mode and then recreate all the non valid resources. This time you will be able to create the objects but those will be audited.
+
+
+[source, bash]
+----
+oc patch k8smaxpods.constraints.gatekeeper.sh/deployment-max-pods -p '{"spec":{"enforcementAction":"dryrun"}}' --type merge
+oc patch k8smaxrequests.constraints.gatekeeper.sh/pod-max-requests -p '{"spec":{"enforcementAction":"dryrun"}}' --type merge
+oc patch k8sresourcequota.constraints.gatekeeper.sh/resourcequota -p '{"spec":{"enforcementAction":"dryrun"}}' --type merge
+----
+
+Expected result: Non compliant resources are created.
