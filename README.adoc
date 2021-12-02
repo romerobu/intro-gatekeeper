@@ -382,11 +382,6 @@ oc apply -f examples/deployment-pod-no.yaml -n gatekeeper-project
 
 Expected result: Fail.
 
-Para solucionar problema de las unidades: 
-
-oc delete k8smaxrequests.constraints.gatekeeper.sh/pod-max-requests +
-oc delete constraintTemplate k8smaxrequests +
-
 === Deploy constraint using synced values
 
 In this example we are going to use Audit feature to access more resources synced in cache apart from the resource under test. This means that all the resources specified at Config (syncOnly) can be accessed via data.properties.
